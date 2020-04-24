@@ -7,11 +7,7 @@ import './index.css';
 import App from './components/App';
 
 const initialState = {
-  books: [
-    { id: Math.floor(Math.random() * 100).toString(), title: 'Title one', category: 'Sci-Fi' },
-    { id: Math.floor(Math.random() * 100).toString(), title: 'Title Two', category: 'Action' },
-    { id: Math.floor(Math.random() * 100).toString(), title: 'Title Three', category: 'Kids' },
-  ],
+  books: [],
 };
 
 const store = createStore(rootReducer(initialState));

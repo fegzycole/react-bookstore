@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import actions from '../actions/index';
 import categories from '../utils/bookCategories';
-
-const { createBook } = actions;
+import db from '../firebase/config';
 
 class BooksForm extends Component {
   constructor(props) {
@@ -12,7 +8,8 @@ class BooksForm extends Component {
 
     this.state = {
       title: '',
-      category: null,
+      category: '',
+      error: null,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -31,26 +28,35 @@ class BooksForm extends Component {
   reset() {
     this.setState({
       title: '',
-      category: null,
+      category: '',
     });
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
-    const { createBook } = this.props;
-    const { title, category } = this.state;
-    const book = {
-      id: Math.floor(Math.random() * 1000),
-      title,
-      category,
-    };
 
-    createBook(book);
-    this.reset();
+    this.setState({
+      error: null,
+    });
+
+    const { title, category } = this.state;
+
+    try {
+      await db.collection('bookstore').add({
+        title,
+        category,
+      });
+      this.reset();
+    } catch (error) {
+      this.setState({
+        error: error.message,
+      });
+      throw new Error(error.message);
+    }
   }
 
   render() {
-    const { category } = this.state;
+    const { category, title, error } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -60,6 +66,7 @@ class BooksForm extends Component {
             type="text"
             placeholder="Book Title"
             name="title"
+            value={title}
             onChange={this.handleChange}
             className="input-text"
           />
@@ -68,7 +75,6 @@ class BooksForm extends Component {
             onChange={this.handleChange}
             className="select-category"
             value={category}
-            defaultValue="Please Select Category"
           >
             <option disabled>
               Please Select Category
@@ -81,21 +87,10 @@ class BooksForm extends Component {
           </select>
           <input type="submit" value="add book" className="submit-btn" />
         </div>
+        <p className="error">{error}</p>
       </form>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  createBook: book => dispatch(createBook(book)),
-});
-
-BooksForm.propTypes = {
-  createBook: PropTypes.func,
-};
-
-BooksForm.defaultProps = {
-  createBook: () => null,
-};
-
-export default connect(null, mapDispatchToProps)(BooksForm);
+export default BooksForm;

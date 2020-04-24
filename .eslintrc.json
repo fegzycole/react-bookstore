@@ -29,6 +29,9 @@
       }
     ],
     "import/no-unresolved": "off",
+    "no-cond-assign": "off",
+    "no-constant-condition": "off",
+    "no-param-reassign": "off",
     "no-shadow": "off",
     "arrow-parens": [
       "error",

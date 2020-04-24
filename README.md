@@ -12,7 +12,7 @@ This project consist of building a simple Bookstore app using ReactJS and Redux
 
 ## Live Demo
 
-[Live Demo Link](https://reactapp-bookstore.herokuapp.com/)
+[Live Demo Link](https://react-redux-bookstore.herokuapp.com/)
 
 ## Authors
 
