@@ -1,5 +1,5 @@
 # Bookstore - ReactJS
-This project consist of building a simple Bookstore app using ReactJS and Redux
+This project consist of building a simple Bookstore app using ReactJS and Redux.
 
 <img src="public/screenshot.png" >
 
